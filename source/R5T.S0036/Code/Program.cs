@@ -1,59 +1,33 @@
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 
-using Microsoft.Extensions.Hosting;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-using R5T.Plymouth;
-using R5T.Plymouth.ProgramAsAService;
+using R5T.T0133;
+using R5T.T0134;
 
 
 namespace R5T.S0036
 {
-    class Program : ProgramAsAServiceBase
+    class Program
     {
-        #region Static
-        
         static Task Main()
         {
-        
-            return ApplicationBuilder.Instance
-                .NewApplication()
-                .UseProgramAsAService<Program>()
-                .UseT0027_T009_TwoStageStartup<Startup>()
-                .BuildProgramAsAServiceHost()
-                .Run();
+            Program.CreateServiceDefinitionInterface();
+
+            return Task.CompletedTask;
         }
 
-        #endregion
-
-
-                        private IServiceProvider ServiceProvider { get; }
-        
-
-
-                        public Program(IApplicationLifetime applicationLifetime,
-            IServiceProvider serviceProvider)
-            : base(applicationLifetime)
+        private static void CreateServiceDefinitionInterface()
         {
-        
-            this.ServiceProvider = serviceProvider;
-        }
+            var compilationRequirement = Instances.CompilationUnitGenerator.CreateServiceDefinitionInterface();
 
-                protected override Task ServiceMain(CancellationToken stoppingToken)
-        {
-        
-            return this.RunOperation();
-        }
+            // Write compilation to example code file.
+            Instances.SyntaxOperator_S0032_F001.WriteToExampleCodeFilePath(
+                compilationRequirement.Node);
 
-                private async Task RunOperation()
-        {
-        
-        }
-
-                private async Task RunMethod()
-        {
-        
+            // Write compilation unit compilation requirements to code file context.
         }
     }
 }

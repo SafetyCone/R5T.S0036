@@ -1,0 +1,3 @@
+R5T.S0036.F001 - Functionality to write syntax elements to an example code file.
+
+GOALS:
